@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Arcade Basketball</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="game-container">
+      <canvas id="game-canvas"></canvas>
+      
+      <!-- UI Layer -->
+      <div id="ui-layer">
+        <div id="score-display">0</div>
+        
+        <div id="combo-display" class="hidden">
+          <span id="combo-text">COMBO x2!</span>
+        </div>
+
+        <div id="start-screen" class="screen">
+          <h1>SWISH</h1>
+          <p>Drag anywhere to shoot</p>
+          <button id="start-btn">PLAY</button>
+        </div>
+
+        <div id="game-over-screen" class="screen hidden">
+          <h2>GAME OVER</h2>
+          <div class="score-stats">
+            <p>Score: <span id="final-score">0</span></p>
+            <p>Best: <span id="best-score">0</span></p>
+          </div>
+          <button id="restart-btn">TAP TO RESTART</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
