@@ -35,11 +35,17 @@ export class InputController {
       this.state.currentX = pos.x;
       this.state.currentY = pos.y;
       
-      // Calculate drag vector (direct aiming: moving mouse up shoots up)
-      this.state.dragVector = {
-        x: this.state.currentX - this.state.startX,
-        y: this.state.currentY - this.state.startY
-      };
+      // Calculate drag vector (ensure dy is always pointing upwards towards hoop)
+      let dx = this.state.currentX - this.state.startX;
+      let dy = this.state.currentY - this.state.startY;
+
+      // If pulling down (slingshot aiming), invert to point towards the hoop
+      if (dy > 0) {
+        dx = -dx;
+        dy = -dy;
+      }
+
+      this.state.dragVector = { x: dx, y: dy };
 
       // Cap maximum drag length to prevent infinite power
       const maxDrag = 250;

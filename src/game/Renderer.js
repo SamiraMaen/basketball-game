@@ -34,14 +34,14 @@ export class Renderer {
     let vx = velocityX;
     let vy = velocityY;
     const gravity = this.physics.engine.world.gravity.y;
-    const timeStep = 1.5;
+    const timeStep = 1.0;
 
     this.ctx.setLineDash([10, 15]);
     this.ctx.lineDashOffset = -(Date.now() / 20) % 25; // Animate dashes moving forward
     this.ctx.lineWidth = 4;
     this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 25; i++) {
       vy += gravity * timeStep;
       x += vx * timeStep;
       y += vy * timeStep;

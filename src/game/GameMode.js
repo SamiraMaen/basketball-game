@@ -117,11 +117,18 @@ export class GameMode {
     if (this.state !== GameState.IDLE && this.state !== GameState.AIMING) return;
     
     this.state = GameState.IN_AIR;
-    const powerMultiplier = 0.15;
-    this.physics.shootBall({
-      x: dragVector.x * powerMultiplier,
-      y: dragVector.y * powerMultiplier
-    });
+    const powerMultiplier = 0.12;
+    
+    let vx = dragVector.x * powerMultiplier;
+    let vy = dragVector.y * powerMultiplier;
+
+    // Clamp horizontal velocity to reasonable bounds [-18, 18]
+    vx = Math.max(-18, Math.min(18, vx));
+    
+    // Clamp vertical velocity to stay within visible screen arc [-22, -10]
+    vy = Math.max(-22, Math.min(-10, vy));
+
+    this.physics.shootBall({ x: vx, y: vy });
     this.audio.playBounce(); // Sound of throwing
 
     // Failsafe: If ball gets stuck or takes too long, end turn

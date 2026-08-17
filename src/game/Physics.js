@@ -21,7 +21,7 @@ export class PhysicsEngine {
 
   createWalls() {
     // Floor (a bit below screen so we only see it when ball falls off)
-    const floor = Matter.Bodies.rectangle(this.width / 2, this.height + 50, this.width * 2, 100, { 
+    const floor = Matter.Bodies.rectangle(this.width / 2, this.height + 100, this.width * 2, 100, { 
       isStatic: true,
       label: 'floor'
     });
@@ -29,11 +29,8 @@ export class PhysicsEngine {
     // Left and right walls (invisible bounds)
     const leftWall = Matter.Bodies.rectangle(-50, this.height / 2, 100, this.height * 2, { isStatic: true });
     const rightWall = Matter.Bodies.rectangle(this.width + 50, this.height / 2, 100, this.height * 2, { isStatic: true });
-    
-    // Ceiling
-    const ceiling = Matter.Bodies.rectangle(this.width / 2, -500, this.width * 2, 100, { isStatic: true });
 
-    this.walls = [floor, leftWall, rightWall, ceiling];
+    this.walls = [floor, leftWall, rightWall];
     Matter.World.add(this.world, this.walls);
   }
 
