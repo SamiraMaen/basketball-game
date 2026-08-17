@@ -94,7 +94,7 @@ export class GameMode {
   resetBall() {
     this.ballStartX = window.innerWidth * 0.5;
     this.ballStartY = window.innerHeight * 0.8;
-    this.physics.createBall(this.ballStartX, this.ballStartY, 45);
+    this.physics.createBall(this.ballStartX, this.ballStartY, 38);
     this.hasTouchedRim = false;
   }
 
@@ -117,16 +117,16 @@ export class GameMode {
     if (this.state !== GameState.IDLE && this.state !== GameState.AIMING) return;
     
     this.state = GameState.IN_AIR;
-    const powerMultiplier = 0.12;
+    const powerMultiplier = 0.16;
     
     let vx = dragVector.x * powerMultiplier;
     let vy = dragVector.y * powerMultiplier;
 
-    // Clamp horizontal velocity to reasonable bounds [-18, 18]
-    vx = Math.max(-18, Math.min(18, vx));
+    // Clamp horizontal velocity [-20, 20]
+    vx = Math.max(-20, Math.min(20, vx));
     
-    // Clamp vertical velocity to stay within visible screen arc [-22, -10]
-    vy = Math.max(-22, Math.min(-10, vy));
+    // Clamp vertical velocity to ensure smooth high arc over rim [-30, -18]
+    vy = Math.max(-30, Math.min(-18, vy));
 
     this.physics.shootBall({ x: vx, y: vy });
     this.audio.playBounce(); // Sound of throwing

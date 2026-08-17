@@ -61,33 +61,36 @@ export class PhysicsEngine {
       this.sensor = null;
     }
 
-    const rimThickness = 4;
+    const rimThickness = 5;
     
     // Left rim point
     const leftRim = Matter.Bodies.circle(x - radius, y, rimThickness, {
       isStatic: true,
-      restitution: 0.2,
+      restitution: 0.6,
+      friction: 0.01,
       label: 'rim'
     });
 
     // Right rim point
     const rightRim = Matter.Bodies.circle(x + radius, y, rimThickness, {
       isStatic: true,
-      restitution: 0.2,
+      restitution: 0.6,
+      friction: 0.01,
       label: 'rim'
     });
     
-    // Backboard (optional, behind the right rim)
-    const backboard = Matter.Bodies.rectangle(x + radius + 10, y - 40, 10, 100, {
+    // Backboard (placed horizontally above behind the rim)
+    const backboard = Matter.Bodies.rectangle(x, y - 75, radius * 3.5, 15, {
       isStatic: true,
-      restitution: 0.5,
+      restitution: 0.7,
+      friction: 0.05,
       label: 'backboard'
     });
 
     this.hoopParts = [leftRim, rightRim, backboard];
 
     // Scoring sensor: A rectangle just below the rim
-    this.sensor = Matter.Bodies.rectangle(x, y + 15, radius * 1.5, 10, {
+    this.sensor = Matter.Bodies.rectangle(x, y + 25, radius * 1.4, 10, {
       isStatic: true,
       isSensor: true, // Doesn't collide, just triggers events
       label: 'scoreSensor'

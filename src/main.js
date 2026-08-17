@@ -94,7 +94,7 @@ restartBtn.addEventListener('click', () => {
 
 // Setup initial static scene for background
 physics.createHoop(window.innerWidth / 2, window.innerHeight * 0.3, 60);
-physics.createBall(window.innerWidth / 2, window.innerHeight * 0.8, 45);
+physics.createBall(window.innerWidth / 2, window.innerHeight * 0.8, 38);
 
 // Start render loop
 requestAnimationFrame(loop);
