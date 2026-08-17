@@ -63,10 +63,14 @@ input.onShoot = (dragVector) => {
 };
 
 // Main Game Loop
-let lastTime = performance.now();
+let lastTime = 0;
 function loop(time) {
-    const dt = time - lastTime;
+    if (!lastTime) lastTime = time;
+    const rawDt = time - lastTime;
     lastTime = time;
+
+    // Clamp dt to a safe maximum of 33ms to avoid lag spiral
+    const dt = Math.min(Math.max(rawDt, 0), 33.33);
 
     // Update Physics and Game Logic
     physics.update(dt);

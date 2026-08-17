@@ -55,11 +55,13 @@ export class PhysicsEngine {
 
   createHoop(x, y, radius) {
     // Clean up old hoop
-    if (this.hoopParts.length > 0) {
-      Matter.World.remove(this.world, this.hoopParts);
+    if (this.hoopParts && this.hoopParts.length > 0) {
+      this.hoopParts.forEach(part => Matter.World.remove(this.world, part));
+      this.hoopParts = [];
     }
     if (this.sensor) {
       Matter.World.remove(this.world, this.sensor);
+      this.sensor = null;
     }
 
     const rimThickness = 4;
@@ -98,8 +100,9 @@ export class PhysicsEngine {
   }
 
   update(dt) {
-    // Standard 60fps update delta is roughly 16.66ms
-    Matter.Engine.update(this.engine, dt);
+    // Cap dt between 0 and 33.33ms (30fps min) to prevent physics lag spikes
+    const clampedDt = Math.min(Math.max(dt || 16.66, 0), 33.33);
+    Matter.Engine.update(this.engine, clampedDt);
   }
 
   shootBall(velocity) {

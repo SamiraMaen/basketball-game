@@ -5,7 +5,8 @@ export const GameState = {
   IDLE: 1,
   AIMING: 2,
   IN_AIR: 3,
-  GAME_OVER: 4
+  SCORED: 4,
+  GAME_OVER: 5
 };
 
 export class GameMode {
@@ -133,7 +134,8 @@ export class GameMode {
   }
 
   handleScore() {
-    this.state = GameState.IDLE; // Ready for next turn quickly
+    if (this.state !== GameState.IN_AIR) return;
+    this.state = GameState.SCORED;
     clearTimeout(this.shotTimer);
     
     const isSwish = !this.hasTouchedRim;
@@ -160,6 +162,7 @@ export class GameMode {
       if (this.state !== GameState.GAME_OVER) {
          this.spawnHoop(this.score);
          this.resetBall();
+         this.state = GameState.IDLE;
       }
     }, 500);
   }
