@@ -91,6 +91,8 @@ export class GameMode {
   }
 
   resetBall() {
+    this.ballStartX = window.innerWidth * 0.5;
+    this.ballStartY = window.innerHeight * 0.8;
     this.physics.createBall(this.ballStartX, this.ballStartY, 45);
     this.hasTouchedRim = false;
   }

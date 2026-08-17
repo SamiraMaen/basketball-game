@@ -43,6 +43,7 @@ export class PhysicsEngine {
     }
     
     this.ball = Matter.Bodies.circle(x, y, radius, {
+      isStatic: true,
       restitution: 0.7, // Bounciness
       friction: 0.05,
       density: 0.05,
