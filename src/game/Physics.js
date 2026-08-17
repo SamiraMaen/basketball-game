@@ -12,6 +12,8 @@ export class PhysicsEngine {
     this.engine.world.gravity.y = 1.2;
 
     this.ball = null;
+    this.isBallHeld = true;
+    this.ballHoldPos = { x: width / 2, y: height * 0.8 };
     this.hoopParts = [];
     this.sensor = null;
     this.walls = [];
@@ -39,8 +41,11 @@ export class PhysicsEngine {
       Matter.World.remove(this.world, this.ball);
     }
     
+    this.isBallHeld = true;
+    this.ballHoldPos = { x, y };
+
     this.ball = Matter.Bodies.circle(x, y, radius, {
-      isStatic: true,
+      isStatic: false, // Keep dynamic so gravity and inverseMass work 100% reliably
       restitution: 0.7, // Bounciness
       friction: 0.05,
       density: 0.05,
@@ -100,6 +105,13 @@ export class PhysicsEngine {
   }
 
   update(dt) {
+    // Hold ball stationary on platform until shot
+    if (this.isBallHeld && this.ball) {
+      Matter.Body.setPosition(this.ball, this.ballHoldPos);
+      Matter.Body.setVelocity(this.ball, { x: 0, y: 0 });
+      Matter.Body.setAngularVelocity(this.ball, 0);
+    }
+
     // Cap dt between 0 and 33.33ms (30fps min) to prevent physics lag spikes
     const clampedDt = Math.min(Math.max(dt || 16.66, 0), 33.33);
     Matter.Engine.update(this.engine, clampedDt);
@@ -107,18 +119,18 @@ export class PhysicsEngine {
 
   shootBall(velocity) {
     if (this.ball) {
-      // Allow it to move freely now
-      Matter.Body.setStatic(this.ball, false);
+      this.isBallHeld = false;
       Matter.Body.setVelocity(this.ball, velocity);
     }
   }
 
   resetBall(x, y) {
     if (this.ball) {
+      this.isBallHeld = true;
+      this.ballHoldPos = { x, y };
       Matter.Body.setPosition(this.ball, { x, y });
       Matter.Body.setVelocity(this.ball, { x: 0, y: 0 });
       Matter.Body.setAngularVelocity(this.ball, 0);
-      Matter.Body.setStatic(this.ball, true); // Hold it in place until shot
     }
   }
 }
